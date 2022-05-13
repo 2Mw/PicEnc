@@ -15,13 +15,14 @@ import (
 )
 
 type PicFile struct {
-	dir      string // 图片目录
-	filename string // 图片文件名
+	Dir      string // 图片目录
+	Filename string // 图片文件名
 }
 
+// ReadImage Read the metadata of an image, return data, type of image, error
 func (p *PicFile) ReadImage() ([][]uint32, string, error) {
 	begin := time.Now()
-	path := fmt.Sprintf("%v%v%v", p.dir, string(os.PathSeparator), p.filename)
+	path := fmt.Sprintf("%v%v%v", p.Dir, string(os.PathSeparator), p.Filename)
 	reader, err := os.Open(path)
 	if err != nil {
 		return nil, "", err
@@ -32,13 +33,13 @@ func (p *PicFile) ReadImage() ([][]uint32, string, error) {
 		return nil, "", err
 	}
 
-	if t == "png" {
-		reader.Seek(0, 0)
-		img, _ = png.Decode(reader)
-	} else {
-		reader.Seek(0, 0)
-		img, _ = jpeg.Decode(reader)
-	}
+	//if t == "png" {
+	//	reader.Seek(0, 0)
+	//	img, _ = png.Decode(reader)
+	//} else {
+	//	reader.Seek(0, 0)
+	//	img, _ = jpeg.Decode(reader)
+	//}
 
 	size := img.Bounds().Size()
 	data := make([][]uint32, size.X)
@@ -62,7 +63,7 @@ func (p *PicFile) ReadImage() ([][]uint32, string, error) {
 }
 
 // ExportFile Export image with specified type
-func (p *PicFile) ExportFile(data [][]uint32, typ string) (string, error) {
+func (p *PicFile) ExportFile(data [][]uint32, typ string) (path string, err error) {
 	start := time.Now()
 	x, y := len(data), len(data[0])
 	paint := image.NewRGBA(image.Rect(0, 0, x, y))
@@ -90,7 +91,16 @@ func (p *PicFile) ExportFile(data [][]uint32, typ string) (string, error) {
 		}(i)
 	}
 	wg.Wait()
-	path := fmt.Sprintf("%v%vo_%v", p.dir, string(os.PathSeparator), p.filename)
+	path = fmt.Sprintf("%v%vo_%v", p.Dir, string(os.PathSeparator), p.Filename)
+	//splits := strings.Split(path, ".")
+	//if len(splits) > 1 {
+	//	if splits[len(splits)-1] != typ {
+	//		splits[len(splits)-1] = typ
+	//	}
+	//	path = strings.Join(splits, ".")
+	//} else {
+	//	path = path + "." + typ
+	//}
 
 	file, err := os.Create(path)
 	if err != nil {

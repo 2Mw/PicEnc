@@ -2,12 +2,14 @@ package service
 
 import (
 	"log"
+	"path/filepath"
+	"strings"
 	"testing"
 )
 
 var entry = &PicFile{
-	dir:      "C:\\Users\\张三\\Desktop",
-	filename: "2.jpg",
+	Dir:      "C:\\Users\\张三\\Desktop",
+	Filename: "2.jpg",
 }
 
 func TestReadImage(t *testing.T) {
@@ -21,5 +23,24 @@ func TestReadImage(t *testing.T) {
 	if err != nil {
 		return
 	}
+}
 
+func TestSplit(t *testing.T) {
+	s := "asdsadsad"
+	log.Printf("%v", strings.Split(s, "kkk"))
+}
+
+func TestFile(t *testing.T) {
+	name := "C:\\Users\\张三\\Desktop\\2.jpg"
+	//file, err := os.Open(name)
+	//if err != nil {
+	//	return
+	//}
+	//log.Printf("Name: %v", file.Name())
+	//filepath.Abs(name)
+	path, err := filepath.Abs(name)
+	if err != nil {
+		log.Printf("%v", err)
+	}
+	log.Printf("%v", path)
 }
