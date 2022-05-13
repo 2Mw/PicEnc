@@ -65,7 +65,7 @@ Demo:
 * Decode a picture with only row mode
 
   ```shell
-  $ PicEnc en -f img/o_q.jpg -k 0.666 -m 1
+  $ PicEnc de -f img/o_q.jpg -k 0.666 -m 1
   2022/05/13 14:38:57 Read image: o_q.jpg successfully, type:jpeg, cost: 0.001s
   2022/05/13 14:38:57 Encrypt image successfully, cost 0.011s
   2022/05/13 14:38:57 Successfully export file to o_o_q.jpg, cost 0.003s
